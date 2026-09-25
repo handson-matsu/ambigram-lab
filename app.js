@@ -6,7 +6,8 @@
   const ctx = editor.getContext('2d', { willReadFrequently: true });
   const previewCtx = preview.getContext('2d');
   const size = editor.width;
-  const widths = { brush: 24, pen: 5, eraser: 36 };
+  const widths = { brush: 24, pen: 5, eraser: 88 };
+  const widthRanges = { brush: [1, 80], pen: [1, 80], eraser: [8, 160] };
   const toolNames = { brush: '筆', pen: 'ペン', eraser: '消しゴム' };
   let tool = 'brush';
   let color = '#202333';
@@ -213,11 +214,18 @@
   for (const name of ['pointerup', 'pointercancel', 'lostpointercapture']) editor.addEventListener(name, finishStroke);
   window.addEventListener('blur', () => finishStroke());
   function updateWidth() {
+    const [min, max] = widthRanges[tool];
+    $('#width').min = min;
+    $('#width').max = max;
     $('#width').value = widths[tool];
     $('#width').setAttribute('aria-label', `${toolNames[tool]}の太さ`);
     $('#width-value').value = widths[tool];
     const dot = $('#width-dot');
-    dot.style.width = dot.style.height = `${Math.max(3, widths[tool] * 0.35)}px`;
+    // Keep the eraser indicator inside the existing toolbar at larger sizes.
+    const dotSize = tool === 'eraser'
+      ? 14 + 14 * (widths[tool] - min) / (max - min)
+      : Math.max(3, widths[tool] * 0.35);
+    dot.style.width = dot.style.height = `${dotSize}px`;
     dot.style.background = tool === 'eraser' ? '#ccc8dd' : color;
   }
   document.querySelectorAll('[data-tool]').forEach((button) => button.addEventListener('click', () => {
@@ -305,3 +313,16 @@
   updateWidth();
   updatePreview();
 })();
+
+// Record one visit per page load without waiting for the response or retrying.
+try {
+  fetch('https://script.google.com/macros/s/AKfycbxssCIHsD-N97SHxNC_GN0ihYeC0qy-lb-EY0KmSs6Gnztaph1sITMerLVEnNWOGkYc/exec?app=coin-paradox', {
+    method: 'GET',
+    mode: 'no-cors',
+    cache: 'no-store',
+    credentials: 'omit',
+    keepalive: true,
+  }).catch(() => {});
+} catch {
+  // Access logging must never interrupt the drawing app.
+}
