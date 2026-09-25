@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f8fc">
+  <meta name="description" content="描いて、回して、発見しよう。アンビグラムをつくる小さなアトリエ。">
+  <title>Ambigram Lab — 描いて、回して、発見しよう。</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <main class="app">
+    <header class="header">
+      <a class="brand" href="./" aria-label="Ambigram Lab ホーム"><span class="brand-mark" aria-hidden="true">a<span>↻</span></span><span>Ambigram <strong>Lab</strong><small>ひらめきを、くるっと。</small></span></a>
+      <span class="version">YOUR LITTLE CREATIVE LAB <span>Ver.1</span></span>
+    </header>
+    <section class="intro"><div><span class="eyebrow">見る向きが変わると、アイデアも変わる。</span><h1>描いて、回して、<span>発見しよう。</span></h1><p>文字でも、絵でも、なんでも。もうひとつの姿を見ながら描いてみよう。</p></div><button class="button save" id="save"><span aria-hidden="true">↓</span> 画像を保存 <small>PNG</small></button></section>
+    <section class="toolbar" aria-label="描画ツール">
+      <div class="tool-group" role="group" aria-label="道具">
+        <button class="tool selected" data-tool="brush" aria-pressed="true"><span aria-hidden="true">▰</span> 筆</button>
+        <button class="tool" data-tool="pen" aria-pressed="false"><span aria-hidden="true">✎</span> ペン</button>
+        <button class="tool" data-tool="eraser" aria-pressed="false"><span aria-hidden="true">▱</span> 消しゴム</button>
+      </div>
+      <div class="width-control"><label for="width">太さ <output id="width-value" for="width">24</output></label><input id="width" type="range" min="1" max="80" value="24" aria-label="筆の太さ"><span class="width-preview" aria-hidden="true"><i id="width-dot"></i></span></div>
+      <div class="colors" role="group" aria-label="描く色"><button class="swatch selected" data-color="#202333" style="--swatch:#202333" aria-label="黒" aria-pressed="true"></button><button class="swatch" data-color="#e34d59" style="--swatch:#e34d59" aria-label="赤" aria-pressed="false"></button><button class="swatch" data-color="#397be5" style="--swatch:#397be5" aria-label="青" aria-pressed="false"></button><button class="swatch" data-color="#269e74" style="--swatch:#269e74" aria-label="緑" aria-pressed="false"></button><label class="custom-color" title="好きな色を選ぶ"><input id="color" type="color" value="#202333" aria-label="好きな色を選ぶ"><span aria-hidden="true">＋</span></label></div>
+      <div class="history"><button id="undo" class="quiet" disabled><span aria-hidden="true">↶</span> 元に戻す</button><button id="redo" class="quiet" disabled><span aria-hidden="true">↷</span> やり直す</button><button id="clear" class="quiet clear"><span aria-hidden="true">⌫</span> 全消去</button></div>
+    </section>
+    <section class="workspace" aria-label="描画スペース">
+      <article class="canvas-panel"><div class="panel-heading"><h2><span class="step">01</span> 描いてみよう</h2><span class="panel-tag">EDIT</span></div><div class="canvas-wrap" id="editor-wrap"><canvas id="editor" width="1000" height="1000" aria-label="描画キャンバス。マウス、タッチ、ペンで自由に描けます。"></canvas><div class="empty-hint" id="empty-hint"><span aria-hidden="true">✎</span><p>ここから、自由に。</p><small>文字も、かたちも、思いつくままに</small></div></div><div class="panel-footer"><span class="live-dot"></span> マウス・タッチ・ペンで描けます<span class="paper-size">1000 × 1000</span></div></article>
+      <article class="canvas-panel preview-panel"><div class="panel-heading"><h2><span class="step">02</span> 変換すると…</h2><span class="panel-tag live"><span class="live-dot"></span> LIVE PREVIEW</span></div><div class="canvas-wrap"><canvas id="preview" width="1000" height="1000" aria-label="180°回転したプレビュー。ここには描画できません。"></canvas><span class="transform-badge" id="transform-badge">↻ 180°回転</span></div><div class="panel-footer">見るだけのキャンバス<span class="preview-note">下のボタンで、この向きから編集 ↓</span></div></article>
+    </section>
+    <section class="transform-bar" aria-label="プレビューの変換"><div class="transform-options"><span class="transform-label">変換する</span><div class="transform-buttons" role="group" aria-label="変換方法"><button data-transform="90" aria-pressed="false">↻ <span>90°回転</span></button><button data-transform="180" class="selected" aria-pressed="true">↻ <span>180°回転</span></button><button data-transform="270" aria-pressed="false">↻ <span>270°回転</span></button><button data-transform="horizontal" aria-pressed="false">↔ <span>左右反転</span></button><button data-transform="vertical" aria-pressed="false">↕ <span>上下反転</span></button></div></div><button class="button edit-transform" id="apply-transform"><span aria-hidden="true">⇄</span> 変換して編集</button></section>
+    <aside class="tip"><span aria-hidden="true">✦</span><p><strong>ひらめきのヒント</strong>　「変換して編集」で向きを変えながら、ふたつの姿を整えてみよう。</p></aside>
+    <footer class="footer"><span>AMBIGRAM LAB</span><p>正解はひとつじゃない。あなただけのかたちを。</p><span>作品はページを閉じる前に保存してね</span></footer>
+    <p id="status" class="sr-only" role="status" aria-live="polite"></p>
+  </main>
+</body>
+</html>
